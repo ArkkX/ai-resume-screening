@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Resume Screener</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+    }
+    button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .output {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+    .output pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>AI Resume Screener</h1>
+    <div class="form-group">
+      <label for="resume">Upload Resume (PDF/DOCX):</label>
+      <input type="file" id="resume" accept=".pdf,.docx">
+      <button onclick="uploadResume()">Upload</button>
+    </div>
+    <div class="form-group">
+      <label for="job-description">Enter Job Description:</label>
+      <textarea id="job-description" rows="4" style="width: 100%;"></textarea>
+      <button onclick="submitJobDescription()">Submit</button>
+    </div>
+    <div class="form-group">
+      <button onclick="matchResume()">Match Resume</button>
+    </div>
+    <div class="output" id="output">
+      <h3>Output:</h3>
+      <pre id="output-text">No output yet.</pre>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE_URL = "http://localhost:5000";
+
+    let resumeEntities = null;
+    let jobEntities = null;
+
+    async function uploadResume() {
+      const fileInput = document.getElementById("resume");
+      const file = fileInput.files[0];
+      if (!file) {
+        alert("Please select a file.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/upload-resume`, {
+          method: "POST",
+          body: formData,
+        });
+        const data = await response.json();
+        if (response.ok) {
+          resumeEntities = data.entities;
+          document.getElementById("output-text").textContent = `Resume Uploaded Successfully:\n${JSON.stringify(data, null, 2)}`;
+        } else {
+          throw new Error(data.error || "Failed to upload resume.");
+        }
+      } catch (error) {
+        document.getElementById("output-text").textContent = `Error: ${error.message}`;
+      }
+    }
+
+    async function submitJobDescription() {
+      const description = document.getElementById("job-description").value.trim();
+      if (!description) {
+        alert("Please enter a job description.");
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/submit-job-description`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ description }),
+        });
+        const data = await response.json();
+        if (response.ok) {
+          jobEntities = data.entities;
+          document.getElementById("output-text").textContent = `Job Description Submitted Successfully:\n${JSON.stringify(data, null, 2)}`;
+        } else {
+          throw new Error(data.error || "Failed to submit job description.");
+        }
+      } catch (error) {
+        document.getElementById("output-text").textContent = `Error: ${error.message}`;
+      }
+    }
+
+    async function matchResume() {
+      if (!resumeEntities || !jobEntities) {
+        alert("Please upload a resume and submit a job description first.");
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/match-resume`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ resume_entities: resumeEntities, job_entities: jobEntities }),
+        });
+        const data = await response.json();
+        if (response.ok) {
+          document.getElementById("output-text").textContent = `Match Results:\n${JSON.stringify(data, null, 2)}`;
+        } else {
+          throw new Error(data.error || "Failed to match resume.");
+        }
+      } catch (error) {
+        document.getElementById("output-text").textContent = `Error: ${error.message}`;
+      }
+    }
+  </script>
+</body>
+</html>
