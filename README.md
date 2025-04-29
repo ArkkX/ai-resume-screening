@@ -1,6 +1,6 @@
 # AI Resume Screener
 
-AI Resume Screener is a full-stack prototype that automates the initial screening of candidate resumes against arbitrary job descriptions. It extracts and classifies resume content, computes transparent sub-scores (Education, Experience, Projects, Skills), and ranks candidates by overall fit. The system is built with:
+AI Resume Screener is a full-stack prototype that automates the initial screening of candidate resumes against arbitrary job descriptions. It extracts and classifies resume content, computes transparent sub-scores (Education, Experience, Projects, Skills), and ranks candidates by overall fit (Check releases on the right). The system is built with:
 
 - **Backend**: Python 3.10, FastAPI, Uvicorn  
 - **Parsing**: pdfplumber, pdf2image + pytesseract (OCR), PyPDF2, python-docx  
