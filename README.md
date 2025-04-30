@@ -171,6 +171,6 @@ This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for d
 
 ## Contact
 
-*Aasrit* • [Aasrit](mailto:venkata2.durbha@live.uwe.ac.uk)  
+*Aasrit* • [Student Email](mailto:venkata2.durbha@live.uwe.ac.uk)  
 Project repository: https://github.com/ArkkX/ai-resume-screener  
 ```
