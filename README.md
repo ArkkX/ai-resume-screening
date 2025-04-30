@@ -171,6 +171,6 @@ This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for d
 
 ## Contact
 
-*Your Name* • [your.email@example.com](mailto:your.email@example.com)  
-Project repository: https://github.com/yourusername/ai-resume-screener  
+*Aasrit* • [Aasrit](mailto:venkata2.durbha@live.uwe.ac.uk)  
+Project repository: https://github.com/ArkkX/ai-resume-screener  
 ```
