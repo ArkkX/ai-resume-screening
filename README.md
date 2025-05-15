@@ -163,10 +163,6 @@ npx playwright test
 k6 run loadtest.js
 ```
 
-## License
-
-This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for details.
-
 ---
 
 ## Contact
